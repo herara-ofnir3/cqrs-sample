@@ -1,0 +1,43 @@
+﻿@model CqrsSample.Web.Models.Post.PostDetailsModel
+@using CqrsSample.Web.Helpers;
+
+@{
+    ViewBag.Title = Model.Post.Title;
+}
+
+<article class="post">
+
+	<div class="post-header">
+		<span class="glyphicon glyphicon-time"></span>
+		@Model.Post.PostedAt.ToString("yyyy-MM-dd")
+	</div>
+
+	<h1 class="post-title">@Model.Post.Title</h1>
+
+	<div class="post-body">
+		@Html.ReplaceBreak(Model.Post.Body)
+	</div>
+
+	<div class="post-footer">
+		<span title="@Model.Post.PostedAt">@Model.Post.PostedAt.TimeAgo()</span>
+	</div>
+
+	<div class="post-comment-container">
+		<h2>コメント <span class="badge">@(Model.Post.Comments.Count)</span></h2>
+		@foreach (var comment in Model.Post.Comments)
+		{
+			<div class="panel panel-default">
+				<div class="panel-body">
+					@comment.Body
+				</div>
+				<div class="panel-footer">
+					@comment.PostedAt - @comment.Name
+				</div>
+			</div>
+		}
+	</div>
+</article>
+
+<hr />
+<h3>コメントする</h3>
+@Html.Partial("CommentPostForm", Model.CommentPostModel)

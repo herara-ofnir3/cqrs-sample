@@ -1,0 +1,53 @@
+﻿@model CqrsSample.Web.Models.Post.PostListModel
+@using CqrsSample.Domain.Posting;
+@using CqrsSample.Web.Models;
+
+@{
+	ViewBag.Title = "Index";
+	var statusLabelClass = new Dictionary<PostStatus, string>
+	{
+		{ PostStatus.Draft, "label-default" },
+		{ PostStatus.Public, "label-primary" },
+	};
+}
+
+<h2>記事の管理</h2>
+
+<p>
+	@Html.ActionLink("新しい記事", "New")
+</p>
+
+@Html.Partial("Pager", Model.Posts.ToPagerModel(Model.Page))
+
+<table class="table table-striped">
+	<thead>
+		<tr>
+			<th style="width:160px;">投稿日時</th>
+			<th style="width:160px;">更新日時</th>
+			<th>タイトル</th>
+			<th style="width:80px;">コメント</th>
+			<th style="width:80px;">状態</th>
+			<th style="width:160px;"></th>
+		</tr>
+	</thead>
+	<tbody>
+	@foreach (var post in Model.Posts)
+	{
+		<tr>
+			<td style="text-align:right;">@post.PostedAt</td>
+			<td style="text-align:right;">@post.UpdatedAt</td>
+			<td>@Html.ActionLink(post.Title, "Details", new { id = post.Id })</td>
+			<td style="text-align:right;">@post.CommentCount</td>
+			<td style="text-align:center;">
+				<span class="label @statusLabelClass[post.Status]">
+					@post.Status.ToDisplay()
+				</span>
+			</td>
+			<td style="text-align:center;">
+				@Html.ActionLink("編集", "Edit", new { id = post.Id }, new { @class = "btn btn-default" })
+				@Html.ActionLink("削除", "Delete", new { id = post.Id }, new { @class = "btn btn-danger" })
+			</td>
+		</tr>
+	}
+	</tbody>
+</table>

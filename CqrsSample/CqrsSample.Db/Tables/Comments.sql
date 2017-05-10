@@ -1,0 +1,11 @@
+﻿CREATE TABLE [dbo].[Comments]
+(
+	[Id] INT IDENTITY NOT NULL PRIMARY KEY, 
+	[Version] TIMESTAMP NOT NULL,
+	[PostId] INT NOT NULL,
+	[Name] NVARCHAR(50) NOT NULL,
+    [Body] NVARCHAR(1024) NOT NULL, 
+    [PostedAt] DATETIME NOT NULL, 
+    [UpdatedAt] DATETIME NULL, 
+    CONSTRAINT [FK_Comments_Posts] FOREIGN KEY ([PostId]) REFERENCES [Posts]([Id])
+)

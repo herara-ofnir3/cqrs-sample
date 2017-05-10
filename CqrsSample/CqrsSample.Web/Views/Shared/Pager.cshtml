@@ -1,0 +1,38 @@
+﻿@model CqrsSample.Web.Models.PagerModel
+@using CqrsSample.Web.Helpers;
+
+@{ 
+	Func<bool, string> itemClass = (bool enabled) =>
+	{
+		if (enabled) return string.Empty;
+		return "disabled";
+	};
+}
+
+<nav>
+	<ul class="pagination">
+		<li class="@itemClass(!Model.IsFirst)">
+			<a href="@this.PageUrl(Model.First)" aria-label="First">
+				<span aria-hidden="true">&laquo;</span>
+			</a>
+		</li>
+		<li class="@itemClass(!Model.IsFirst)">
+			<a href="@this.PageUrl(Model.Prev)" aria-label="Previous">
+				<span aria-hidden="true">&lsaquo;</span>
+			</a>
+		</li>
+		<li>
+			<span>@Model.Page.Number / @Model.TotalPages</span>
+		</li>
+		<li class="@itemClass(!Model.IsLast)">
+			<a href="@this.PageUrl(Model.Next)" aria-label="Next">
+				<span aria-hidden="true">&rsaquo;</span>
+			</a>
+		</li>
+		<li class="@itemClass(!Model.IsLast)">
+			<a href="@this.PageUrl(Model.Last)" aria-label="Last">
+				<span aria-hidden="true">&raquo;</span>
+			</a>
+		</li>
+	</ul>
+</nav>

@@ -1,0 +1,35 @@
+﻿@model CqrsSample.Web.Models.Post.PostIndexModel
+@using CqrsSample.Web.Helpers;
+@using CqrsSample.Web.Models;
+
+@{
+    ViewBag.Title = "";
+}
+
+<div class="post-list">
+	@foreach (var post in Model.Posts)
+	{
+		<article class="post">
+			<div class="post-header">
+				<span class="glyphicon glyphicon-time"></span>
+				@post.PostedAt.ToString("yyyy-MM-dd")
+			</div>
+
+			<h1 class="post-title">@Html.ActionLink(post.Title, "Details", new { id = post.Id })</h1>
+
+			<div class="post-body">
+				@Html.ReplaceBreak(post.Body)
+			</div>
+
+			<div class="post-footer">
+				<span title="@post.PostedAt">@post.PostedAt.TimeAgo()</span>
+			</div>
+
+			<div class="post-comment-container">
+				コメント <span class="badge">@(post.CommentCount)</span>
+			</div>
+		</article>
+	}
+</div>
+
+@Html.Partial("Pager", Model.Posts.ToPagerModel(Model.Page))
